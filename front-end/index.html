@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./Willer_Santos-removebg-preview.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+</head>
+<body>
+    <header></header>
+
+    <main>
+        <form action="#" method="get">
+            <h1>Faça o seu login</h1>
+
+            <input type="email" name="email" id="email" placeholder="E-mail" required>
+            <br><br>
+            <input type="password" name="senha" id="senha" placeholder="Senha" required>
+            <br><br>
+            <button type="button">Logar</button>
+        </form>
+    </main>
+</body>
+
+    <script>
+        const inputEmail = document.querySelector('#email')
+        const inputSenha = document.querySelector('#senha')
+        const body = document.querySelector('body')
+
+        const botaoLogar = document.querySelector('button')
+
+        botaoLogar.addEventListener('click', async () => {
+            
+            const email = inputEmail.value;
+            const senha = inputSenha.value;
+
+            const requisicao = {
+                email,
+                senha
+            }
+            
+            try {
+                const resposta = await axios.post('http://localhost:3000/login', requisicao); 
+
+                if(!email || !senha){
+                    const msgErro = document.createElement('p')
+                    msgErro.innerHTML = 'É necessario preencher todos os dados para avançar.';
+                    msgErro.style.color = 'red'
+
+                    const bodyInsert = document.querySelector('body')
+                    bodyInsert.appendChild(msgErro)    
+                } else {
+                    const resNaTela = document.createElement('div')
+                    resNaTela.innerHTML = `O usuário foi cadastrado.`
+                    resNaTela.style.color = 'green'
+
+                    body.appendChild(resNaTela)
+                }
+
+                console.log(resposta.data);
+
+            } catch (error) {
+                console.log(error.message);     
+            }       
+        });
+    </script>
+</html>
